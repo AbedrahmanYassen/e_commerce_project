@@ -1,14 +1,37 @@
+import 'package:ecommerce_app_training/providers/web_services_manager/web_services_sign_in.dart';
 import 'package:ecommerce_app_training/widgets/facebook_login_signup_button.dart';
 import 'package:ecommerce_app_training/widgets/google_login_signup_button.dart';
 import 'package:ecommerce_app_training/widgets/signup_screen/text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
+
+  @override
+  _SignUpScreenState createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  TextEditingController nameController = TextEditingController();
+
+  TextEditingController passwordController = TextEditingController();
+
+  TextEditingController emailController = TextEditingController();
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    WebServicesSingUpScreen webServicesSingUpScreen =
+        Provider.of(context, listen: false);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -26,14 +49,28 @@ class SignUpScreen extends StatelessWidget {
                     height: 30,
                   ),
                   _buildSizedDividedTextField(
-                      width: screenWidth * 0.9, hintText: 'Full name'),
+                      width: screenWidth * 0.9,
+                      hintText: 'Full name',
+                      textEditingController: nameController),
                   _buildSizedDividedTextField(
-                      width: screenWidth * 0.9, hintText: 'Email'),
+                      width: screenWidth * 0.9,
+                      hintText: 'Email',
+                      textEditingController: emailController),
                   _buildSizedDividedTextField(
-                      width: screenWidth * 0.9, hintText: 'Password'),
+                      width: screenWidth * 0.9,
+                      hintText: 'Password',
+                      textEditingController: passwordController),
                   _buildSignUpButton(
                     width: screenWidth * 0.9,
                     height: 50,
+                    function: () async {
+                      webServicesSingUpScreen
+                          .createAccountUsingEmailAndPassword(
+                        fullName: nameController.text.toString().trim(),
+                        email: emailController.text.toString().trim(),
+                        password: passwordController.text.toString().trim(),
+                      );
+                    },
                   ),
                   SizedBox(
                     height: 50,
@@ -52,6 +89,10 @@ class SignUpScreen extends StatelessWidget {
                     padding:
                         const EdgeInsets.only(left: 15, right: 15, top: 15),
                     child: GoogleButton(
+                      function: () {
+                        webServicesSingUpScreen.addUser(
+                            fullName: 'name', email: 'anything nw');
+                      },
                       height: 50,
                       width: screenWidth * 0.9,
                       textOnTheButton: 'Sign Up with Google',
@@ -94,12 +135,15 @@ class SignUpScreen extends StatelessWidget {
   }
 
   Widget _buildSizedDividedTextField(
-      {required double width, required String hintText}) {
+      {required double width,
+      required String hintText,
+      required TextEditingController textEditingController}) {
     return SizedBox(
       width: width,
       child: Column(
         children: [
-          TextFieldWidgetForSignUp(
+          TextFieldWidgetForSignUpAndLogIn(
+            textEditingController: textEditingController,
             hintText: hintText,
           ),
           SizedBox(
@@ -110,12 +154,17 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSignUpButton({required double width, required double height}) {
+  Widget _buildSignUpButton(
+      {required double width,
+      required double height,
+      required Function function}) {
     return SizedBox(
       width: width,
       height: height,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          function();
+        },
         child: Text(
           'Sign Up',
         ),

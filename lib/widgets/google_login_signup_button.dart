@@ -5,17 +5,21 @@ class GoogleButton extends StatelessWidget {
   final double width;
   final String textOnTheButton;
   final double height;
+  final Function function;
   const GoogleButton(
       {Key? key,
       required this.height,
       required this.width,
-      required this.textOnTheButton})
+      required this.textOnTheButton,
+      required this.function})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        function();
+      },
       child: Row(
         children: [
           Container(

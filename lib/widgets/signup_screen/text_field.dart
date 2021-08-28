@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
-class TextFieldWidgetForSignUp extends StatelessWidget {
+class TextFieldWidgetForSignUpAndLogIn extends StatelessWidget {
   final String hintText;
-  const TextFieldWidgetForSignUp({Key? key, required this.hintText})
+  final TextEditingController textEditingController;
+  const TextFieldWidgetForSignUpAndLogIn(
+      {Key? key, required this.hintText, required this.textEditingController})
       : super(key: key);
 
   @override
@@ -10,6 +12,7 @@ class TextFieldWidgetForSignUp extends StatelessWidget {
     return Container(
       color: Color.fromRGBO(241, 244, 251, 1),
       child: TextField(
+        controller: textEditingController,
         decoration: InputDecoration(
           hintText: hintText,
           hintStyle: TextStyle(color: Colors.grey),

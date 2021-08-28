@@ -1,16 +1,40 @@
+import 'package:ecommerce_app_training/providers/web_services_manager/login_with_google.dart';
+import 'package:ecommerce_app_training/providers/web_services_manager/web_services_login_with_email.dart';
 import 'package:ecommerce_app_training/widgets/facebook_login_signup_button.dart';
 import 'package:ecommerce_app_training/widgets/google_login_signup_button.dart';
 import 'package:ecommerce_app_training/widgets/signup_screen/text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController passwordController = TextEditingController();
+
+  TextEditingController emailController = TextEditingController();
+  @override
+  void dispose() {
+    passwordController.dispose();
+    emailController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
 
     double screenHeight = MediaQuery.of(context).size.height;
+    LogInWithGoogle logInWithGoogle = Provider.of<LogInWithGoogle>(
+      context,
+    );
+    WebServicesLogInWithEmailAndPassword webServicesLogInWithEmailAndPassword =
+        Provider.of<WebServicesLogInWithEmailAndPassword>(context,
+            listen: false);
     return Scaffold(
       body: SafeArea(
           child: SingleChildScrollView(
@@ -26,10 +50,22 @@ class LoginScreen extends StatelessWidget {
                   height: 15,
                 ),
                 _buildSizedDividedTextField(
-                    width: screenWidth * 0.9, hintText: 'Email '),
+                    width: screenWidth * 0.9,
+                    hintText: 'Email ',
+                    textEditingController: emailController),
                 _buildSizedDividedTextField(
-                    width: screenWidth * 0.9, hintText: 'Password '),
-                _buildLoginButton(width: screenWidth * 0.9, height: 50),
+                    width: screenWidth * 0.9,
+                    hintText: 'Password ',
+                    textEditingController: passwordController),
+                _buildLoginButton(
+                    width: screenWidth * 0.9,
+                    height: 50,
+                    function: () async {
+                      webServicesLogInWithEmailAndPassword
+                          .signinWithEmailAndPassword(
+                              email: emailController.text,
+                              password: passwordController.text);
+                    }),
                 TextButton(
                   onPressed: () {},
                   child: Text(
@@ -51,6 +87,9 @@ class LoginScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
                   child: GoogleButton(
+                    function: () async {
+                      var result = await logInWithGoogle.signInWithGoogle();
+                    },
                     height: 50,
                     width: screenWidth * 0.9,
                     textOnTheButton: 'Log In with Google',
@@ -108,13 +147,16 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _buildSizedDividedTextField(
-      {required double width, required String hintText}) {
+      {required double width,
+      required String hintText,
+      required TextEditingController textEditingController}) {
     return SizedBox(
       width: width,
       child: Column(
         children: [
-          TextFieldWidgetForSignUp(
+          TextFieldWidgetForSignUpAndLogIn(
             hintText: hintText,
+            textEditingController: textEditingController,
           ),
           SizedBox(
             height: 10,
@@ -124,12 +166,17 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildLoginButton({required double width, required double height}) {
+  Widget _buildLoginButton(
+      {required double width,
+      required double height,
+      required Function function}) {
     return SizedBox(
       width: width,
       height: height,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          function();
+        },
         child: Text(
           'Log In',
         ),
