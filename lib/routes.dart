@@ -1,6 +1,7 @@
 import 'package:ecommerce_app_training/screens/admin_related_screens/add_screen.dart';
 import 'package:ecommerce_app_training/screens/admin_related_screens/admin_specefic_operations.dart';
 import 'package:ecommerce_app_training/screens/admin_related_screens/edit_screen.dart';
+import 'package:ecommerce_app_training/screens/admin_related_screens/orders_for_shiping.dart';
 import 'package:ecommerce_app_training/screens/admin_related_screens/view_products_screen.dart';
 import 'package:ecommerce_app_training/screens/intro_screen_page.dart';
 import 'package:ecommerce_app_training/screens/login_screen.dart';
@@ -22,8 +23,11 @@ class RouteGenerator {
   static const String addScreen = '/addScreen';
   static const String storeHomeScreen = '/storeHomeScreen';
   static const String productScreen = '/productScreen';
+  static const String ordersScreen = '/ordersScreen';
 
-  static Route<dynamic> generateRoute(RouteSettings settings) {
+  static Route<dynamic> generateRoute(
+    RouteSettings settings,
+  ) {
     switch (settings.name) {
       case introScreen:
         return MaterialPageRoute(builder: (_) => IntroScreenPart());
@@ -39,7 +43,14 @@ class RouteGenerator {
         });
       case editScreen:
         return MaterialPageRoute(builder: (_) {
-          return EditScreen();
+          return EditScreen(
+            currentName: 'currentName',
+            currentImage: 'currentImage',
+            currentCategory: 'currentCategory',
+            description: 'description',
+            currentPrice: 50,
+            documentId: 'whatever',
+          );
         });
       case viewScreen:
         return MaterialPageRoute(builder: (_) {
@@ -53,10 +64,14 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) {
           return StoreHomeScreen();
         });
-      case productScreen:
+      case ordersScreen:
+        return MaterialPageRoute(builder: (_) {
+          return OrdersForShipingScreen();
+        });
+      /* case productScreen:
         return MaterialPageRoute(builder: (_) {
           return ProductScreen();
-        });
+        });*/
       default:
         return MaterialPageRoute(builder: (_) => IntroScreenPart());
     }

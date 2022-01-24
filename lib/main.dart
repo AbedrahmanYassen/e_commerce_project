@@ -1,4 +1,9 @@
+import 'package:ecommerce_app_training/providers/admin_related_providers/add_screen_manager.dart';
+import 'package:ecommerce_app_training/providers/admin_related_providers/edit_screen_manager.dart';
+import 'package:ecommerce_app_training/providers/admin_related_providers/orders_screen_provider.dart';
 import 'package:ecommerce_app_training/providers/bottom_navigation_bar_manager.dart';
+import 'package:ecommerce_app_training/providers/profile_screen_provider.dart';
+import 'package:ecommerce_app_training/providers/user_related_provider/home_screen_manager.dart';
 import 'package:ecommerce_app_training/providers/web_services_manager/login_with_google.dart';
 import 'package:ecommerce_app_training/providers/web_services_manager/web_services_login_with_email.dart';
 import 'package:ecommerce_app_training/providers/web_services_manager/web_services_sign_in.dart';
@@ -24,6 +29,21 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => WebServicesLogInWithEmailAndPassword(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AddScreenManager(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => EditScreenManager(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => HomeScreenManager(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => UserDataProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => OrdersScreenProvider(),
         ),
       ],
     ),
@@ -71,7 +91,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       onGenerateRoute: RouteGenerator.generateRoute,
-      initialRoute: RouteGenerator.introScreen,
+      initialRoute: RouteGenerator.storeHomeScreen,
     );
   }
 }

@@ -1,11 +1,35 @@
+import 'package:ecommerce_app_training/providers/admin_related_providers/add_screen_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
-class AddScreen extends StatelessWidget {
+class AddScreen extends StatefulWidget {
   const AddScreen({Key? key}) : super(key: key);
 
   @override
+  _AddScreenState createState() => _AddScreenState();
+}
+
+class _AddScreenState extends State<AddScreen> {
+  TextEditingController nameController = new TextEditingController();
+  TextEditingController priceController = new TextEditingController();
+  TextEditingController categoryController = new TextEditingController();
+  TextEditingController descriptionController = new TextEditingController();
+  TextEditingController brandController = new TextEditingController();
+  @override
+  void dispose() {
+    super.dispose();
+    nameController.dispose();
+    priceController.dispose();
+    categoryController.dispose();
+    descriptionController.dispose();
+    brandController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    AddScreenManager addScreenManager =
+        Provider.of<AddScreenManager>(context, listen: false);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -32,32 +56,51 @@ class AddScreen extends StatelessWidget {
                           hintText: 'Name',
                           width: 300,
                           height: 100,
-                          textEditingController: new TextEditingController(),
+                          textEditingController: nameController,
                         ),
                         TextFieldForAddScreen(
                           hintText: 'Price',
                           width: 300,
                           height: 100,
-                          textEditingController: new TextEditingController(),
+                          textEditingController: priceController,
                         ),
                         TextFieldForAddScreen(
                           hintText: 'Category',
                           width: 300,
                           height: 100,
-                          textEditingController: new TextEditingController(),
+                          textEditingController: categoryController,
                         ),
                         TextFieldForAddScreen(
                           hintText: 'Description',
                           width: 300,
                           height: 100,
-                          textEditingController: new TextEditingController(),
+                          textEditingController: descriptionController,
                         ),
+                        TextFieldForAddScreen(
+                            textEditingController: brandController,
+                            height: 100,
+                            width: 300,
+                            hintText: 'brand'),
                         ImagePicker(),
-                        DataUploaderToTheDatabase()
+                        DataUploaderToTheDatabase(
+                          function: () {
+                            addScreenManager.addUser(
+                                name: nameController.text,
+                                price: priceController.text,
+                                category: categoryController.text,
+                                description: descriptionController.text,
+                                brand: brandController.text,
+                                context: context);
+                            nameController.clear();
+                            priceController.clear();
+                            categoryController.clear();
+                            descriptionController.clear();
+                          },
+                        )
                       ],
                     ),
                     width: MediaQuery.of(context).size.width * 0.9,
-                    height: MediaQuery.of(context).size.height * 0.9,
+                    height: MediaQuery.of(context).size.height,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(40),
                         color: Colors.grey.shade200),
@@ -148,8 +191,9 @@ class ImagePicker extends StatelessWidget {
 }
 
 class DataUploaderToTheDatabase extends StatelessWidget {
-  const DataUploaderToTheDatabase({Key? key}) : super(key: key);
-
+  const DataUploaderToTheDatabase({required this.function, Key? key})
+      : super(key: key);
+  final Function function;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -164,7 +208,9 @@ class DataUploaderToTheDatabase extends StatelessWidget {
               borderRadius: BorderRadius.circular(35),
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            function();
+          },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

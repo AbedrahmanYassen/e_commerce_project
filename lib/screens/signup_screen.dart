@@ -69,6 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         fullName: nameController.text.toString().trim(),
                         email: emailController.text.toString().trim(),
                         password: passwordController.text.toString().trim(),
+                        context: context,
                       );
                     },
                   ),
@@ -91,7 +92,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: GoogleButton(
                       function: () {
                         webServicesSingUpScreen.addUser(
-                            fullName: 'name', email: 'anything nw');
+                            fullName: 'name',
+                            email: 'anything nw',
+                            context: context);
                       },
                       height: 50,
                       width: screenWidth * 0.9,
@@ -162,6 +165,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       width: width,
       height: height,
       child: ElevatedButton(
+        style: ElevatedButton.styleFrom(primary: Colors.grey),
         onPressed: () {
           function();
         },

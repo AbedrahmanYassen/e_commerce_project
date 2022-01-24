@@ -1,25 +1,30 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ecommerce_app_training/models/product.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProductScreen extends StatelessWidget {
-  const ProductScreen({Key? key}) : super(key: key);
+  final Product product;
+  const ProductScreen({required this.product, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.grey.shade200,
+        elevation: 0.0,
+        iconTheme: IconThemeData(color: Colors.black),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
               Container(
                 child: Column(
-                  children: [
-                    _buildUpperIconsInTheScreen(),
-                    _buildProductInformationWidget()
-                  ],
+                  children: [_buildProductInformationWidget()],
                 ),
-                width: MediaQuery.of(context).size.width,
-                height: 300,
+                width: double.infinity,
+                // height: 150,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(35),
@@ -30,25 +35,33 @@ class ProductScreen extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              _companyLogo(),
+              Image.network(
+                (product.brand == 'hp')
+                    ? 'https://www.studentenwegwijzer.nl/wp-content/uploads/2016/07/HP-studentenkorting.jpeg'
+                    : 'https://thumbs.dreamstime.com/b/golden-falcon-bird-vector-logo-design-white-background-182823944.jpg',
+                width: 150,
+                height: 150,
+              ),
               const SizedBox(
                 height: 30,
               ),
               Text(
-                'Name product ',
+                product.productName,
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.w600,
                 ),
+              ),
+              SizedBox(
+                height: 15,
               ),
               Text(
-                ' Price  product ',
+                product.productPrice,
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizeCollector(),
               DescriptionPart(),
               AddTOCartAndFavouritesButtons()
             ],
@@ -58,22 +71,23 @@ class ProductScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildUpperIconsInTheScreen() {
-    return Row(
-      children: [
-        IconButton(onPressed: () {}, icon: Icon(Icons.keyboard)),
-        IconButton(onPressed: () {}, icon: Icon(Icons.keyboard_arrow_down))
-      ],
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    );
-  }
-
   Widget _buildProductInformationWidget() {
     return Column(
       children: [
-        Image.asset(
-          'assets/images/images.png',
-        ),
+        Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: CarouselSlider(
+              options: CarouselOptions(
+                autoPlay: true,
+              ),
+              items: [1, 2, 3].map((i) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Image.network(product.imageUrl);
+                  },
+                );
+              }).toList(),
+            )),
         //TODO : here i have to make the page view indicator
       ],
     );
@@ -88,72 +102,20 @@ class ProductScreen extends StatelessWidget {
   }
 }
 
-class SizeCollector extends StatefulWidget {
-  const SizeCollector({Key? key}) : super(key: key);
-
-  @override
-  _SizeCollectorState createState() => _SizeCollectorState();
-}
-
-class _SizeCollectorState extends State<SizeCollector> {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Size',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(
-                'size Guide',
-                style: TextStyle(color: Colors.grey),
-              ),
-            ],
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: 80,
-            child: ListView.builder(
-              itemCount: 7,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Container(
-                    width: 70,
-                    height: 90,
-                    child: Center(
-                      child: Text('sizes'),
-                    ),
-                  ),
-                );
-              },
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
 class DescriptionPart extends StatelessWidget {
   const DescriptionPart({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      title: Text('description'),
+      title: Text('Description', style: TextStyle(color: Colors.grey)),
+      iconColor: Colors.grey,
+      collapsedIconColor: Colors.grey,
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            'This is the best product that wont regret about buying it trust me ',
+            'This is the best product that wont regret about buying it trust me',
           ),
         ),
       ],

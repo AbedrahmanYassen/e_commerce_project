@@ -58,20 +58,23 @@ class _LoginScreenState extends State<LoginScreen> {
                     hintText: 'Password ',
                     textEditingController: passwordController),
                 _buildLoginButton(
-                    width: screenWidth * 0.9,
-                    height: 50,
-                    function: () async {
-                      webServicesLogInWithEmailAndPassword
-                          .signinWithEmailAndPassword(
-                              email: emailController.text,
-                              password: passwordController.text);
-                    }),
+                  width: screenWidth * 0.9,
+                  height: 50,
+                  function: () async {
+                    webServicesLogInWithEmailAndPassword
+                        .signinWithEmailAndPassword(
+                      email: emailController.text,
+                      password: passwordController.text,
+                      context: context,
+                    );
+                  },
+                ),
                 TextButton(
                   onPressed: () {},
                   child: Text(
                     'Forgot password?',
                     style: TextStyle(
-                      color: Colors.blue,
+                      color: Colors.grey,
                     ),
                   ),
                 ),
@@ -174,6 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
       width: width,
       height: height,
       child: ElevatedButton(
+        style: ElevatedButton.styleFrom(primary: Colors.grey),
         onPressed: () {
           function();
         },

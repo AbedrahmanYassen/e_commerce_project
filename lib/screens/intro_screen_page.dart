@@ -38,7 +38,7 @@ class IntroScreenPart extends StatelessWidget {
                 height: 40,
               ),
               Text(
-                'Discover  upcoming events around you',
+                'the place where wont be disappointed',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color.fromRGBO(180, 187, 197, 1),
@@ -52,6 +52,7 @@ class IntroScreenPart extends StatelessWidget {
                 width: screenWidth * 0.95,
                 height: 50,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(primary: Colors.grey),
                   onPressed: () {
                     Navigator.of(context)
                         .pushNamed(RouteGenerator.signInScreen);
@@ -66,7 +67,7 @@ class IntroScreenPart extends StatelessWidget {
                   style: OutlinedButton.styleFrom(
                     primary: Colors.white,
                     side: BorderSide(
-                      color: Colors.blue,
+                      color: Colors.grey,
                     ),
                   ),
                   onPressed: () {
@@ -74,7 +75,7 @@ class IntroScreenPart extends StatelessWidget {
                   },
                   child: Text(
                     'Log In',
-                    style: TextStyle(color: Colors.blue),
+                    style: TextStyle(color: Colors.grey),
                   ),
                 ),
               ),
@@ -85,7 +86,10 @@ class IntroScreenPart extends StatelessWidget {
                 padding: const EdgeInsets.all(15),
                 child: TextButton(
                   onPressed: () {},
-                  child: Text('skip for now '),
+                  child: Text(
+                    'skip for now ',
+                    style: TextStyle(color: Colors.grey),
+                  ),
                 ),
               ),
             ],

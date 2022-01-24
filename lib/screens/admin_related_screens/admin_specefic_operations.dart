@@ -77,6 +77,19 @@ class AdminSpecificOperations extends StatelessWidget {
                           contentColor: Colors.black),
                       color: Colors.grey.shade200,
                     ),
+                    OperationButton(
+                      height: 100,
+                      width: 100,
+                      function: () {
+                        Navigator.of(context)
+                            .pushNamed(RouteGenerator.ordersScreen);
+                      },
+                      child: _buildInsideButtonChild(
+                          title: 'Orders',
+                          iconData: Icons.local_shipping,
+                          contentColor: Colors.black),
+                      color: Colors.grey.shade200,
+                    ),
                   ],
                 ),
               ),

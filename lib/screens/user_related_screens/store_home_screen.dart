@@ -1,5 +1,7 @@
 import 'package:ecommerce_app_training/main.dart';
+import 'package:ecommerce_app_training/screens/profile_screen/profile_home_screen.dart';
 import 'package:ecommerce_app_training/widgets/store_home_screen_widgets/list_of_products.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class StoreHomeScreen extends StatefulWidget {
@@ -22,48 +24,61 @@ class _StoreHomeScreenState extends State<StoreHomeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0.0,
         leading: IconButton(
           icon: Icon(
-            Icons.battery_unknown,
+            Icons.settings,
             color: Colors.black,
           ),
           onPressed: () {},
         ),
+        backgroundColor: Colors.white,
+        elevation: 0.0,
         actions: [
           IconButton(
             onPressed: () {},
             icon: Icon(
               Icons.search,
+              size: 35,
               color: Colors.black,
             ),
           ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.email,
-              color: Colors.black,
-            ),
+          SizedBox(
+            width: 10,
           ),
           CircleAvatar(
-            child: Text('3'),
+            child: IconButton(
+              icon: Icon(
+                Icons.person,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return ProfileScreen();
+                    },
+                  ),
+                );
+              },
+            ),
             backgroundColor: Colors.black,
           ),
         ],
         bottom: TabBar(
           labelColor: Colors.black,
+          indicatorColor: Colors.black,
           labelStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           controller: tabController,
           tabs: [
             Tab(
-              text: 'tab 1',
+              text: 'Tablets',
             ),
             Tab(
-              text: 'tab 2',
+              text: 'laptops',
             ),
             Tab(
-              text: 'tab 3',
+              text: 'PCs',
             )
           ],
         ),
@@ -72,9 +87,15 @@ class _StoreHomeScreenState extends State<StoreHomeScreen>
         child: TabBarView(
           controller: tabController,
           children: [
-            ListOfProducts(),
-            ListOfProducts(),
-            ListOfProducts(),
+            ListOfProducts(
+              category: 'Tablets',
+            ),
+            ListOfProducts(
+              category: 'Laptops',
+            ),
+            ListOfProducts(
+              category: 'PCs',
+            ),
           ],
         ),
       ),
