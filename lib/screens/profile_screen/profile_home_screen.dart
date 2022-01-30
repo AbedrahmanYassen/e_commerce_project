@@ -76,7 +76,7 @@ class UpperPartFromProfileScreen extends StatelessWidget {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   image: ExactAssetImage(
-                    'assets/images/images.png',
+                    'assets/images/img.png',
                   ),
                 ),
               ),

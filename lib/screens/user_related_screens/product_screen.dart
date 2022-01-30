@@ -35,12 +35,16 @@ class ProductScreen extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              Image.network(
-                (product.brand == 'hp')
-                    ? 'https://www.studentenwegwijzer.nl/wp-content/uploads/2016/07/HP-studentenkorting.jpeg'
-                    : 'https://thumbs.dreamstime.com/b/golden-falcon-bird-vector-logo-design-white-background-182823944.jpg',
-                width: 150,
-                height: 150,
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 2,
+                height: 80,
+                child: Image.network(
+                  (product.brand == 'hp')
+                      ? 'https://www.studentenwegwijzer.nl/wp-content/uploads/2016/07/HP-studentenkorting.jpeg'
+                      : 'https://thumbs.dreamstime.com/b/golden-falcon-bird-vector-logo-design-white-background-182823944.jpg',
+                  width: 150,
+                  height: 150,
+                ),
               ),
               const SizedBox(
                 height: 30,

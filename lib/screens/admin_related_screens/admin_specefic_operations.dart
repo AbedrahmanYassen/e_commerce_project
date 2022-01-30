@@ -87,8 +87,8 @@ class AdminSpecificOperations extends StatelessWidget {
                       child: _buildInsideButtonChild(
                           title: 'Orders',
                           iconData: Icons.local_shipping,
-                          contentColor: Colors.black),
-                      color: Colors.grey.shade200,
+                          contentColor: Colors.grey.shade200),
+                      color: Colors.black,
                     ),
                   ],
                 ),
